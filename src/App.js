@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import SearchLists from './pages/SearchLists';
 import './reset.css';
 import { Route, Routes } from 'react-router-dom';
+import WishLists from './pages/WishLists';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         </Route>
         <Route path='/details' element={<Details />}>
           Details
+        </Route>
+        <Route path='/wish-lists' element={<WishLists />}>
+          WishLists
         </Route>
       </Routes>
     </div>
