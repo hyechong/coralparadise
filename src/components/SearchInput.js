@@ -13,7 +13,7 @@ const SearchInputWrapper = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   span {
-    color: #7c7c7c;
+    color: #999;
   }
   button {
     width: 100%;
