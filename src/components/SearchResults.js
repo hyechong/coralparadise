@@ -43,7 +43,8 @@ const SearchResults = ({ id, coverImg, address, name, price }) => {
               {address.length > 38 ? `${address.slice(0, 38)}...` : address}
             </span>
             <div className='price'>
-              ₩{price.rate}/박 ・ <span>총액 ₩{price.total}</span>
+              ₩{Number(price.rate).toLocaleString()}/박 ・{' '}
+              <span>총액 ₩{Number(price.total).toLocaleString()}</span>
             </div>
           </Desc>
         </ResultsWrapper>
