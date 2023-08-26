@@ -1,17 +1,16 @@
 import React from 'react';
+import CustomSearch from '../components/CustomSearch';
 import Header from '../components/Header';
-import SearchInput from '../components/SearchInput';
-import { Container, Section } from '../styles/CommonStyles';
+import Hero from '../components/Hero';
+import SliderSection from '../components/SliderSection';
 
 const Home = () => {
   return (
     <div>
       <Header />
-      <Container>
-        <Section>
-          <SearchInput />
-        </Section>
-      </Container>
+      <Hero />
+      <CustomSearch />
+      <SliderSection />
     </div>
   );
 };

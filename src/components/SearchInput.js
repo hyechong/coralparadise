@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
+import Button from './Button';
 
 const SearchInputWrapper = styled.div`
-  width: 400px;
+  width: 100%;
   padding: 2rem 1.25rem;
   background: #fff;
   border-radius: 30px;
@@ -14,16 +15,6 @@ const SearchInputWrapper = styled.div`
   gap: 0.5rem;
   span {
     color: #999;
-  }
-  button {
-    width: 100%;
-    height: auto;
-    padding: 1rem 1.25rem;
-    background: #ff6666;
-    text-align: center;
-    border: none;
-    color: #fff;
-    border-radius: 10px;
   }
 `;
 
@@ -121,7 +112,7 @@ const SearchInput = () => {
               </div>
             </div>
           </InputWrapper>
-          <button type='submit'>검색</button>
+          <Button type='submit' text='검색' mode='hero'></Button>
         </form>
       </SearchInputWrapper>
     </div>

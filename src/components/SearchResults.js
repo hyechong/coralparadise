@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-const ResultsWrapper = styled.div`
+const SearchResultItem = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 `;
 const CoverImg = styled.div`
   object-fit: cover;
@@ -33,21 +33,21 @@ const SearchResults = ({ id, coverImg, address, name, price }) => {
   return (
     <div>
       <Link to={`/details/${id}`}>
-        <ResultsWrapper>
+        <SearchResultItem>
           <CoverImg>
             <img src={coverImg} alt={name} />
           </CoverImg>
           <Desc>
-            <h4>{name.length > 38 ? `${name.slice(0, 38)}...` : name}</h4>
+            <h4>{name.length > 30 ? `${name.slice(0, 30)}...` : name}</h4>
             <span>
-              {address.length > 38 ? `${address.slice(0, 38)}...` : address}
+              {address.length > 30 ? `${address.slice(0, 30)}...` : address}
             </span>
             <div className='price'>
               ₩{Number(price.rate).toLocaleString()}/박 ・{' '}
               <span>총액 ₩{Number(price.total).toLocaleString()}</span>
             </div>
           </Desc>
-        </ResultsWrapper>
+        </SearchResultItem>
       </Link>
     </div>
   );
