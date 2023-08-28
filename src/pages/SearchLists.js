@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import SearchResults from '../components/SearchResults';
-import { Container, Section } from '../styles/CommonStyles';
 import { styled } from 'styled-components';
+import { Container } from '../styles/CommonStyles';
 
-const SearchResultsSection = styled(Section)`
+const SearchResultsSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
@@ -40,7 +40,7 @@ const SearchLists = () => {
         <h1>Loading...</h1>
       ) : (
         <Container>
-          <SearchResultsSection>
+          <SearchResultsSection className='section'>
             {rooms.map((room) => (
               <SearchResults
                 key={room.id}
