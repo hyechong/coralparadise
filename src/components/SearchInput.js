@@ -4,6 +4,14 @@ import { styled } from 'styled-components';
 import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
 import Button from './Button';
 
+const HeadCountInputWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  label {
+    font-size: 14px;
+    color: #888;
+  }
+`;
 const SearchInputWrapper = styled.div`
   width: 100%;
   padding: 2rem 1.25rem;
@@ -24,18 +32,20 @@ const InputWrapper = styled.div`
   padding: 0.5rem 1.25rem;
   border: 1px solid #efefef;
   border-radius: 10px;
-  width: 100%;
   margin-bottom: 0.5rem;
+  display: flex;
   input {
     outline: none;
     border: none;
-    width: 100%;
   }
-  & > .calender-wrapper {
+  ::placeholder {
+    color: #888;
+  }
+  /* & > .calender-wrapper {
     display: flex;
     justify-content: space-between;
-  }
-  & > .calender-wrapper > .check-in {
+  } */
+  & > .check-in {
     padding-right: 1.25rem;
     border-right: 1px solid #efefef;
   }
@@ -49,6 +59,9 @@ const SearchInput = () => {
     location: '',
     checkIn: getFormattedTodayDate(new Date()),
     checkOut: getFormattedTomorrowDate(new Date()),
+    adults: 1,
+    children: 0,
+    pets: 0,
   });
   const focusRef = useRef();
   const navigate = useNavigate();
@@ -68,7 +81,7 @@ const SearchInput = () => {
     } else {
       e.preventDefault();
       navigate(
-        `/search-lists?location=${inputs.location}&checkIn=${inputs.checkIn}&checkOut=${inputs.checkOut}`
+        `/search-lists?location=${inputs.location}&checkIn=${inputs.checkIn}&checkOut=${inputs.checkOut}&adults=${inputs.adults}&children=${inputs.children}&pets=${inputs.pets}`
       );
     }
   };
@@ -80,36 +93,72 @@ const SearchInput = () => {
         <span>CoralParadise에서 독특한 숙소를 예약하세요</span>
         <form onSubmit={handleOnSubmit}>
           <InputWrapper>
-            <h4>위치</h4>
-            <input
-              type='text'
-              name='location'
-              value={inputs.location}
-              onChange={handleOnChange}
-              ref={focusRef}
-              placeholder='여행지를 입력하세요.'
-            />
+            <div className='location'>
+              <h4>위치</h4>
+              <input
+                type='text'
+                name='location'
+                value={inputs.location}
+                onChange={handleOnChange}
+                ref={focusRef}
+                placeholder='여행지를 입력하세요.'
+              />
+            </div>
+            <div className='headcount'>
+              <h4>인원</h4>
+              <HeadCountInputWrapper>
+                <label htmlFor='adults'>성인</label>
+                <input
+                  id='adults'
+                  type='number'
+                  placeholder='성인'
+                  name='adults'
+                  value={inputs.adults}
+                  onChange={handleOnChange}
+                />
+              </HeadCountInputWrapper>
+              <HeadCountInputWrapper>
+                <label htmlFor='children'>유아동</label>
+                <input
+                  id='children'
+                  type='number'
+                  placeholder='유아동'
+                  name='children'
+                  value={inputs.children}
+                  onChange={handleOnChange}
+                />
+              </HeadCountInputWrapper>
+              <HeadCountInputWrapper>
+                <label htmlFor='pets'>반려동물</label>
+                <input
+                  id='pets'
+                  type='number'
+                  placeholder='반려동물'
+                  name='pets'
+                  value={inputs.pets}
+                  onChange={handleOnChange}
+                />
+              </HeadCountInputWrapper>
+            </div>
           </InputWrapper>
           <InputWrapper>
-            <div className='calender-wrapper'>
-              <div className='check-in'>
-                <h4>체크인</h4>
-                <input
-                  type='date'
-                  name='checkIn'
-                  value={inputs.checkIn}
-                  onChange={handleOnChange}
-                />
-              </div>
-              <div className='check-out'>
-                <h4>체크아웃</h4>
-                <input
-                  type='date'
-                  name='checkOut'
-                  value={inputs.checkOut}
-                  onChange={handleOnChange}
-                />
-              </div>
+            <div className='check-in'>
+              <h4>체크인</h4>
+              <input
+                type='date'
+                name='checkIn'
+                value={inputs.checkIn}
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className='check-out'>
+              <h4>체크아웃</h4>
+              <input
+                type='date'
+                name='checkOut'
+                value={inputs.checkOut}
+                onChange={handleOnChange}
+              />
             </div>
           </InputWrapper>
           <Button type='submit' text='검색' mode='hero'></Button>
