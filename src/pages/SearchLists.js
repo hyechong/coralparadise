@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import SearchResults from '../components/SearchResults';
 import { styled } from 'styled-components';
 import { Container } from '../styles/CommonStyles';
+import { ClipLoader } from 'react-spinners';
 
 const SearchResultsSection = styled.div`
   display: grid;
@@ -20,10 +21,13 @@ const SearchLists = () => {
   const location = searchParams.get('location');
   const checkIn = searchParams.get('checkIn');
   const checkOut = searchParams.get('checkOut');
+  const adults = searchParams.get('adults');
+  const children = searchParams.get('children');
+  const pets = searchParams.get('pets');
 
   const getSearchData = async () => {
     const getData = await fetchData(
-      `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=1&children=0&infants=0&pets=0&page=1&currency=KRW`,
+      `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&infants=0&pets=${pets}&page=1&currency=KRW`,
       getOptions
     );
     setRooms(getData.results);
@@ -37,7 +41,21 @@ const SearchLists = () => {
     <div>
       <Header />
       {loading ? (
-        <h1>Loading...</h1>
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}>
+          <ClipLoader
+            color='#ff6666'
+            height={15}
+            width={5}
+            radius={2}
+            margin={2}
+          />
+        </div>
       ) : (
         <Container>
           <SearchResultsSection className='section'>
