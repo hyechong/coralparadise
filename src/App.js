@@ -34,7 +34,7 @@ function App() {
           <Route path='/search-lists' element={<SearchLists />}>
             SearchLists
           </Route>
-          <Route path='/details/:id' element={<Details />}>
+          <Route path='/details' element={<Details />}>
             Details
           </Route>
           <Route path='/wish-lists' element={<WishLists />}>

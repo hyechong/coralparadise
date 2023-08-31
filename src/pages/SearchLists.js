@@ -7,6 +7,7 @@ import SearchResults from '../components/SearchResults';
 import { styled } from 'styled-components';
 import { Container } from '../styles/CommonStyles';
 import { ClipLoader } from 'react-spinners';
+import SearchBar from '../components/SearchBar';
 
 const SearchResultsSection = styled.div`
   display: grid;
@@ -35,7 +36,7 @@ const SearchLists = () => {
   };
   useEffect(() => {
     getSearchData();
-  }, []);
+  }, [location, checkIn, checkOut, adults, children, pets]);
 
   return (
     <div>
@@ -58,7 +59,17 @@ const SearchLists = () => {
         </div>
       ) : (
         <Container>
-          <SearchResultsSection className='section'>
+          <div className='section'>
+            <SearchBar
+              location={location}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              adults={adults}
+              children={children}
+              pets={pets}
+            />
+          </div>
+          <SearchResultsSection>
             {rooms.map((room) => (
               <SearchResults
                 key={room.id}
@@ -67,6 +78,12 @@ const SearchLists = () => {
                 address={room.address}
                 name={room.name}
                 price={room.price}
+                location={location}
+                checkIn={checkIn}
+                checkOut={checkOut}
+                adults={adults}
+                children={children}
+                pets={pets}
               />
             ))}
           </SearchResultsSection>

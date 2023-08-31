@@ -29,10 +29,23 @@ const Desc = styled.div`
   }
 `;
 
-const SearchResults = ({ id, coverImg, address, name, price }) => {
+const SearchResults = ({
+  id,
+  coverImg,
+  address,
+  name,
+  price,
+  location,
+  checkIn,
+  checkOut,
+  adults,
+  children,
+  pets,
+}) => {
   return (
     <div>
-      <Link to={`/details/${id}`}>
+      <Link
+        to={`/details?location=${location}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&pets=${pets}&id=${id}`}>
         <SearchResultItem>
           <CoverImg>
             <img src={coverImg} alt={name} />
