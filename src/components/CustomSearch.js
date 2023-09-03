@@ -29,18 +29,22 @@ const CustomSearchWrapper = styled.div`
 `;
 
 const CustomSearch = () => {
+  const [options, setOptions] = useState({});
   return (
     <CustomSearchWrapper id='custom-search' className='section'>
       <Container>
-        <div className='text-wrapper'>
+        <form className='text-wrapper'>
           <h3>
             나는
             <select>
               <option key='child' value='child'>
                 👶 아이와 함께
               </option>
+              <option key='child' value='child'>
+                👤 나 홀로
+              </option>
               <option key='couple' value='couple'>
-                👩‍❤️‍👨 연인과 함께
+                👩‍❤️‍👨연인과 함께
               </option>
               <option key='dog' value='dog'>
                 🐶 반려동물과 함께
@@ -49,19 +53,19 @@ const CustomSearch = () => {
             <br />
             <select>
               <option key='America' value='America'>
-                🇺🇸 미주/캐나다/대양주로
+                🇺🇸 미국으로
               </option>
               <option key='SouthEastAsia' value='SouthEastAsia'>
                 🏖️ 동남아로
               </option>
-              <option key='Asia' value='Asia'>
-                🏙️ 일본/중국/대만/홍콩으로
+              <option key='Japan' value='Japan'>
+                🏙️ 일본으로
               </option>
               <option key='Europe' value='Europe'>
                 🇪🇺 유럽으로
               </option>
               <option key='Guam' value='Guam'>
-                🏝️ 괌/사이판으로
+                🏝️ 괌으로
               </option>
             </select>
             떠나고 싶어요
@@ -70,7 +74,7 @@ const CustomSearch = () => {
             <Button text='최신순' mode='sub-white' />
             <Button text='리뷰순' mode='sub-point' />
           </div>
-        </div>
+        </form>
       </Container>
     </CustomSearchWrapper>
   );

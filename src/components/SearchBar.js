@@ -11,7 +11,7 @@ const SearchBarWrapper = styled.div`
 
 const SearchBarForm = styled.form`
   width: 70%;
-  padding: 0.5rem 2rem;
+  padding: 0.75rem 2rem;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 30px;
