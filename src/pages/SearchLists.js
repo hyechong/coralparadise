@@ -3,7 +3,7 @@ import { fetchData, getOptions } from '../utils/fetchData';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
-import SearchResults from '../components/SearchResults';
+import ItemBox from '../components/ItemBox';
 import { styled } from 'styled-components';
 import { Container } from '../styles/CommonStyles';
 import { ClipLoader } from 'react-spinners';
@@ -71,7 +71,7 @@ const SearchLists = () => {
           </div>
           <SearchResultsSection>
             {rooms.map((room) => (
-              <SearchResults
+              <ItemBox
                 key={room.id}
                 id={room.id}
                 coverImg={room.images[0]}

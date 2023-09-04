@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { Container } from '../styles/CommonStyles';
 import Button from './Button';
@@ -40,7 +40,7 @@ const CustomSearch = () => {
               <option key='child' value='child'>
                 👶 아이와 함께
               </option>
-              <option key='child' value='child'>
+              <option key='alone' value='alone'>
                 👤 나 홀로
               </option>
               <option key='couple' value='couple'>

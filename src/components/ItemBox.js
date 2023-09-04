@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-const SearchResultItem = styled.div`
+const ItemBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -29,7 +29,7 @@ const Desc = styled.div`
   }
 `;
 
-const SearchResults = ({
+const ItemBox = ({
   id,
   coverImg,
   address,
@@ -46,7 +46,7 @@ const SearchResults = ({
     <div>
       <Link
         to={`/details?location=${location}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}&children=${children}&pets=${pets}&id=${id}`}>
-        <SearchResultItem>
+        <ItemBoxWrapper>
           <CoverImg>
             <img src={coverImg} alt={name} />
           </CoverImg>
@@ -60,10 +60,10 @@ const SearchResults = ({
               <span>총액 ₩{Number(price.total).toLocaleString()}</span>
             </div>
           </Desc>
-        </SearchResultItem>
+        </ItemBoxWrapper>
       </Link>
     </div>
   );
 };
 
-export default SearchResults;
+export default ItemBox;
