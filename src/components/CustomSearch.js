@@ -4,6 +4,14 @@ import { Container } from '../styles/CommonStyles';
 import { fetchData, getOptions } from '../utils/fetchData';
 import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
 import Button from './Button';
+import Slider from 'react-slick';
+import { SliderWrapper } from '../styles/Slider.styled';
+import {
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiStarSFill,
+} from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const CustomSearchWrapper = styled.div`
   text-align: center;
@@ -31,7 +39,25 @@ const CustomSearchWrapper = styled.div`
 `;
 
 const CustomSearch = () => {
+  let settings = {
+    arrows: true,
+    dots: false,
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    prevArrow: <RiArrowLeftSLine />,
+    nextArrow: <RiArrowRightSLine />,
+  };
+  const [slider, setSlider] = useState([]);
   const [options, setOptions] = useState({
+    loca: 'America',
+    adults: '1',
+    children: '1',
+    pets: '0',
+    checkIn: getFormattedTodayDate(new Date()),
+    checkOut: getFormattedTomorrowDate(new Date()),
+  });
+  const [customValue, setCustomValue] = useState({
     loca: 'America',
     adults: '1',
     children: '1',
@@ -77,24 +103,24 @@ const CustomSearch = () => {
     }
   };
 
-  const [customResults, setcustomResults] = useState([]);
-
   // console.log(options);
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    setCustomValue(options);
   };
   const getCustomData = async () => {
     const getData = await fetchData(
-      `https://airbnb13.p.rapidapi.com/search-location?location=${options.loca}&checkin=${options.checkIn}&checkout=${options.checkOut}&adults=${options.adults}&children=${options.children}&infants=0&pets=${options.pets}&page=1&currency=KRW`,
+      `https://airbnb13.p.rapidapi.com/search-location?location=${customValue.loca}&checkin=${customValue.checkIn}&checkout=${customValue.checkOut}&adults=${customValue.adults}&children=${customValue.children}&infants=0&pets=${customValue.pets}&page=1&currency=KRW`,
       getOptions
     );
 
-    setcustomResults(getData.results);
+    setSlider(getData.results);
   };
   useEffect(() => {
     // getCustomData();
-  }, [handleOnSubmit]);
-  console.log(customResults);
+  }, [customValue]);
+  console.log(customValue);
+  console.log(slider);
 
   return (
     <CustomSearchWrapper id='custom-search' className='section'>
@@ -144,6 +170,33 @@ const CustomSearch = () => {
             <Button text='리뷰순' mode='sub-point' />
           </div>
         </form>
+      </Container>
+      <Container>
+        <SliderWrapper>
+          <Slider {...settings} className='slider-wrapper'>
+            {slider.map((data) => (
+              <div className='slide-item'>
+                <img src={data.images[0]} alt='' />
+                <div className='slider-text'>
+                  <h3>{data.name}</h3>
+                  <p>
+                    <em>{data.address}</em>
+                    <em>★ {data.rating}</em>
+
+                    <span>
+                      {/* {Array.from({ length: {data.rating} }).map((_, index) => (
+                        <RiStarSFill key={index} />
+                      ))} */}
+                    </span>
+                  </p>
+                  <Link to={`/details/${data.id}`}>
+                    <strong>자세히 보기</strong>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </SliderWrapper>
       </Container>
     </CustomSearchWrapper>
   );
