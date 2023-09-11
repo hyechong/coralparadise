@@ -73,7 +73,9 @@ const SliderComponent = ({ mode, data }) => {
 
                 <div className='slider-text'>
                   <span className='label'>{idx + 1}위</span>
-                  <h3>{item.name}</h3>
+                  <Link to={`/details/${item.id}`}>
+                    <h3>{item.name}</h3>
+                  </Link>
                 </div>
               </div>
             ))}

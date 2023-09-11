@@ -129,6 +129,9 @@ export const BestSlider = styled(SliderWrapper)`
         left: 50%;
         transform: translate(-50%, -50%);
       }
+      h3:hover {
+        text-decoration: underline;
+      }
     }
   }
 
