@@ -1,3 +1,4 @@
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import React from 'react';
 import CustomSearch from '../components/CustomSearch';
 import Header from '../components/Header';
@@ -11,7 +12,7 @@ const Home = () => {
       <Header />
       <Hero />
       <CustomSearch />
-      <SliderSection />
+      {/* <SliderSection /> */}
       <MapComponent />
     </div>
   );

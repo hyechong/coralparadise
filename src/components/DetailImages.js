@@ -6,8 +6,9 @@ const DetailGridWrapper = styled.div`
   overflow: hidden;
   display: grid;
   grid-gap: 0.5rem;
-  /* grid-template-columns: 2fr 1fr 1fr; */
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: 250px;
+  grid-auto-columns: 315px;
   grid-template-areas:
     'a a b c'
     'a a d e';

@@ -31,10 +31,9 @@ const CustomSearchWrapper = styled.div`
 
   .buttons {
     width: 50%;
-    display: flex;
     margin: auto;
-    column-gap: 1rem;
-    margin-top: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -48,17 +47,9 @@ const CustomSearch = () => {
     prevArrow: <RiArrowLeftSLine />,
     nextArrow: <RiArrowRightSLine />,
   };
-  const [slider, setSlider] = useState([]);
+  const [data, setData] = useState([]);
   const [options, setOptions] = useState({
-    loca: 'America',
-    adults: '1',
-    children: '1',
-    pets: '0',
-    checkIn: getFormattedTodayDate(new Date()),
-    checkOut: getFormattedTomorrowDate(new Date()),
-  });
-  const [customValue, setCustomValue] = useState({
-    loca: 'America',
+    loca: 'USA',
     adults: '1',
     children: '1',
     pets: '0',
@@ -104,28 +95,25 @@ const CustomSearch = () => {
   };
 
   // console.log(options);
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    setCustomValue(options);
+  const handleOnClick = () => {
+    getCustomData();
   };
   const getCustomData = async () => {
     const getData = await fetchData(
-      `https://airbnb13.p.rapidapi.com/search-location?location=${customValue.loca}&checkin=${customValue.checkIn}&checkout=${customValue.checkOut}&adults=${customValue.adults}&children=${customValue.children}&infants=0&pets=${customValue.pets}&page=1&currency=KRW`,
+      `https://airbnb13.p.rapidapi.com/search-location?location=${options.loca}&checkin=${options.checkIn}&checkout=${options.checkOut}&adults=${options.adults}&children=${options.children}&infants=0&pets=${options.pets}&page=1&currency=KRW`,
       getOptions
     );
 
-    setSlider(getData.results);
+    setData(getData.results);
   };
   useEffect(() => {
-    // getCustomData();
-  }, [customValue]);
-  console.log(customValue);
-  console.log(slider);
+    getCustomData();
+  }, []);
 
   return (
     <CustomSearchWrapper id='custom-search' className='section'>
       <Container>
-        <form className='text-wrapper' onSubmit={handleOnSubmit}>
+        <form className='text-wrapper'>
           <h3>
             나는
             <select
@@ -147,7 +135,7 @@ const CustomSearch = () => {
             </select>
             <br />
             <select onChange={handleOnChange} name='loca' value={options.loca}>
-              <option key='America' value='America'>
+              <option key='USA' value='USA'>
                 🇺🇸 미국으로
               </option>
               <option key='SouthEastAsia' value='SouthEastAsia'>
@@ -156,41 +144,50 @@ const CustomSearch = () => {
               <option key='Japan' value='Japan'>
                 🏙️ 일본으로
               </option>
-              <option key='Europe' value='Japan'>
+              <option key='Europe' value='Europe'>
                 🇪🇺 유럽으로
               </option>
-              <option key='Guam' value='Japan'>
+              <option key='Guam' value='Guam'>
                 🏝️ 괌으로
               </option>
             </select>
             떠나고 싶어요
           </h3>
           <div className='buttons'>
-            <Button type='submit' text='최신순' mode='sub-white' />
-            <Button text='리뷰순' mode='sub-point' />
+            {/* <Button text='최신순' mode='sub-white' /> */}
+            <Button
+              text='🔍 내 취향 숙소 찾기'
+              mode='sub-point'
+              onClick={handleOnClick}
+            />
           </div>
         </form>
       </Container>
       <Container>
         <SliderWrapper>
           <Slider {...settings} className='slider-wrapper'>
-            {slider.map((data) => (
-              <div className='slide-item'>
-                <img src={data.images[0]} alt='' />
+            {data.map((item) => (
+              <div className='slide-item' key={item.id}>
+                <div className='slider-img'>
+                  <img src={item.images[0]} alt='' />
+                </div>
                 <div className='slider-text'>
-                  <h3>{data.name}</h3>
+                  <h3>{item.name}</h3>
                   <p>
-                    <em>{data.address}</em>
-                    <em>★ {data.rating}</em>
-
+                    <em>{item.address}</em>
                     <span>
-                      {/* {Array.from({ length: {data.rating} }).map((_, index) => (
-                        <RiStarSFill key={index} />
-                      ))} */}
+                      {/* {Array.from({ length: Math.round(item.rating) }).map(
+                        (_, index) => (
+                          <RiStarSFill key={index} />
+                        )
+                      )} */}
+                      <RiStarSFill />
+                      {item.rating}
                     </span>
                   </p>
-                  <Link to={`/details/${data.id}`}>
-                    <strong>자세히 보기</strong>
+                  <Link
+                    to={`/details?location=${options.loca}&checkIn=${options.checkIn}&checkOut=${options.checkOut}&adults=${options.adults}&children=${options.children}&pets=${options.pets}&id=${item.id}`}>
+                    자세히 보기
                   </Link>
                 </div>
               </div>

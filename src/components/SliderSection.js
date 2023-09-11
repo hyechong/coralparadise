@@ -8,8 +8,8 @@ const SliderSection = () => {
   return (
     <div>
       <Container>
-        <SliderComponent mode='custom' />
-        <SliderComponent mode='best' />
+        {/* <SliderComponent mode='custom' /> */}
+        {/* <SliderComponent mode='best' /> */}
       </Container>
     </div>
   );

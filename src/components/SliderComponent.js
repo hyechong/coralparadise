@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 import { SliderWrapper } from '../styles/Slider.styled';
 import SliderImage from '../assets/slick.jpeg';
@@ -13,8 +13,9 @@ import {
 import { sliderList } from '../utils/sliderList';
 import { bestList } from '../utils/bestList';
 
-const SliderComponent = ({ mode }) => {
+const SliderComponent = ({ mode, data }) => {
   let settings = {};
+  const [slider, setSlider] = useState(data);
   if (mode === 'custom') {
     settings = {
       arrows: true,
@@ -25,24 +26,27 @@ const SliderComponent = ({ mode }) => {
       prevArrow: <RiArrowLeftSLine />,
       nextArrow: <RiArrowRightSLine />,
     };
+
     return (
       <div>
         <SliderWrapper>
           <Slider {...settings} className='slider-wrapper'>
-            {sliderList.map(({ image, title, address, stars, linkId }) => (
-              <div className='slide-item' key={linkId}>
-                <img src={SliderImage} alt='' />
+            {slider.map((item) => (
+              <div className='slide-item' key={item.id}>
+                <img src={item.images[0]} alt={item.name} />
                 <div className='slider-text'>
-                  <h3>{title}</h3>
+                  <h3>{item.name}</h3>
                   <p>
-                    <em>{address}</em>
+                    <em>{item.address}</em>
                     <span>
-                      {Array.from({ length: stars }).map((_, index) => (
-                        <RiStarSFill key={index} />
-                      ))}
+                      {Array.from({ length: Math.round(item.rating) }).map(
+                        (_, index) => (
+                          <RiStarSFill key={index} />
+                        )
+                      )}
                     </span>
                   </p>
-                  <Link to={`/details/${linkId}`}>자세히 보기</Link>
+                  <Link to={`/details/${item.id}`}>자세히 보기</Link>
                 </div>
               </div>
             ))}
@@ -58,20 +62,18 @@ const SliderComponent = ({ mode }) => {
       slidesToShow: 3,
       slidesToScroll: 1,
     };
-    const sortedBestList = bestList.sort(
-      (a, b) => b.star - a.star || a.id - b.id
-    );
+    const sortedBestList = data.sort((a, b) => b.rating - a.rating);
     return (
       <div className='section'>
         <BestSlider>
           <Slider {...settings} className='slider-wrapper'>
-            {sortedBestList.map(({ star, name, id }, idx) => (
+            {sortedBestList.map((item, idx) => (
               <div className='slide-item' key={idx}>
-                <img src={SliderImage} alt='' />
+                <img src={item.images[0]} alt='' />
 
                 <div className='slider-text'>
                   <span className='label'>{idx + 1}위</span>
-                  <h3>{name}</h3>
+                  <h3>{item.name}</h3>
                 </div>
               </div>
             ))}

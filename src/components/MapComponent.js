@@ -11,6 +11,7 @@ import { styled } from 'styled-components';
 import { fetchData, getOptions } from '../utils/fetchData';
 import { Link } from 'react-router-dom';
 import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
+import SliderComponent from './SliderComponent';
 
 const MapContainer = styled.div`
   height: 500px;
@@ -40,10 +41,10 @@ const MapComponent = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
         setCurrentLocation({ lat: latitude, lng: longitude });
-        const ne_lat = latitude + 0.01;
-        const ne_lng = longitude + 0.01;
-        const sw_lat = latitude - 0.01;
-        const sw_lng = longitude - 0.01;
+        const ne_lat = latitude + 0.03;
+        const ne_lng = longitude + 0.03;
+        const sw_lat = latitude - 0.03;
+        const sw_lng = longitude - 0.03;
         getMyLocaData(ne_lat, ne_lng, sw_lat, sw_lng);
       },
       (error) => {
@@ -75,6 +76,7 @@ const MapComponent = () => {
 
   return (
     <MapContainer>
+      <SliderComponent mode='best' data={locationsFromJson} />
       <Container className='map-wrapper'>
         <GoogleMap
           mapContainerStyle={{

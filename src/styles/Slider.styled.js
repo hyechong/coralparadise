@@ -7,10 +7,6 @@ export const SliderWrapper = styled.div`
   .slick-slide {
     overflow: hidden;
     padding: 1.5rem;
-
-    img {
-      width: 100%;
-    }
   }
 
   .slide-item {
@@ -18,6 +14,18 @@ export const SliderWrapper = styled.div`
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: -3px 3px 10px #ccc;
+    height: 400px;
+
+    .slider-img {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 60%;
+    }
+    .slider-img img {
+      width: 100%;
+      height: 100%;
+    }
 
     .slider-text {
       position: absolute;
@@ -25,15 +33,19 @@ export const SliderWrapper = styled.div`
       background: #fff;
       width: 100%;
       padding: 1rem;
-
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
       h3 {
-        line-height: 200%;
+        line-height: 120%;
+        font-size: 1.125rem;
+        letter-spacing: 0;
       }
 
       p {
         display: flex;
         flex-direction: column;
-        margin-bottom: 0.5rem;
+        gap: 0.125rem;
         em {
           color: #999;
           margin-right: 0.5rem;
