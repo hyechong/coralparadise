@@ -14,11 +14,19 @@ import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
 import SliderComponent from './SliderComponent';
 
 const MapContainer = styled.div`
+  margin-top: 3rem;
   height: 500px;
 
   .map-wrapper {
-    padding: 1rem;
+    padding: 3rem 0;
     border: none;
+  }
+  h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 180%;
+    letter-spacing: 0.1rem;
+    text-align: center;
   }
 `;
 
@@ -51,6 +59,7 @@ const MapComponent = () => {
         console.error('Error getting current location:', error);
       }
     );
+    console.log(currentLocation);
 
     const getMyLocaData = async (nelat, nelng, swlat, swlng) => {
       const getData = await fetchData(
@@ -75,50 +84,56 @@ const MapComponent = () => {
   if (!isLoaded) return 'Maps';
 
   return (
-    <MapContainer>
-      <SliderComponent mode='best' data={locationsFromJson} />
-      <Container className='map-wrapper'>
-        <GoogleMap
-          mapContainerStyle={{
-            height: '500px',
-            width: '100%',
-            padding: '5px',
-            border: 'none',
-            borderRadius: '1rem',
-          }}
-          center={currentLocation}
-          zoom={14}
-          onLoad={onMapLoad}
-          onClick={() => setActiveMarker(null)}>
-          {currentLocation && (
-            <Marker
-              position={{ lat: currentLocation.lat, lng: currentLocation.lng }}
-              icon={{
-                url: MarkerIcon,
-                scaledSize: new window.google.maps.Size(30, 40),
-              }}
-            />
-          )}
+    <div>
+      <MapContainer>
+        <h3>📍 내 주변 숙소 찾기</h3>
+        <SliderComponent mode='best' data={locationsFromJson} />
+        <Container className='map-wrapper'>
+          <GoogleMap
+            mapContainerStyle={{
+              height: '500px',
+              width: '100%',
+              padding: '5px',
+              border: 'none',
+              borderRadius: '1rem',
+            }}
+            center={currentLocation}
+            zoom={14}
+            onLoad={onMapLoad}
+            onClick={() => setActiveMarker(null)}>
+            {currentLocation && (
+              <Marker
+                position={{
+                  lat: currentLocation.lat,
+                  lng: currentLocation.lng,
+                }}
+                icon={{
+                  url: MarkerIcon,
+                  scaledSize: new window.google.maps.Size(30, 40),
+                }}
+              />
+            )}
 
-          {locationsFromJson.map((location, index) => (
-            <Marker
-              key={index}
-              icon={{
-                url: MarkerIcon,
-                scaledSize: new window.google.maps.Size(30, 40),
-              }}
-              position={{ lat: location.lat, lng: location.lng }}
-              onClick={() => handleActiveMarker(location)}>
-              {activeMarker === location ? (
-                <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                  <div>{location.name}</div>
-                </InfoWindow>
-              ) : null}
-            </Marker>
-          ))}
-        </GoogleMap>
-      </Container>
-    </MapContainer>
+            {locationsFromJson.map((location, index) => (
+              <Marker
+                key={index}
+                icon={{
+                  url: MarkerIcon,
+                  scaledSize: new window.google.maps.Size(30, 40),
+                }}
+                position={{ lat: location.lat, lng: location.lng }}
+                onClick={() => handleActiveMarker(location)}>
+                {activeMarker === location ? (
+                  <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                    <div>{location.name}</div>
+                  </InfoWindow>
+                ) : null}
+              </Marker>
+            ))}
+          </GoogleMap>
+        </Container>
+      </MapContainer>
+    </div>
   );
 };
 
