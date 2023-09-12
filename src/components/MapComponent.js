@@ -12,6 +12,8 @@ import { fetchData, getOptions } from '../utils/fetchData';
 import { Link } from 'react-router-dom';
 import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
 import SliderComponent from './SliderComponent';
+import Slider from 'react-slick';
+import { BestSlider } from '../styles/Slider.styled';
 
 const MapContainer = styled.div`
   margin-top: 3rem;
@@ -23,14 +25,15 @@ const MapContainer = styled.div`
   }
   h3 {
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 180%;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.25rem;
     text-align: center;
   }
 `;
 
 const MapComponent = () => {
+  let settings = {};
   const [currentLocation, setCurrentLocation] = useState(null);
   const [locationsFromJson, setLocationsFromJson] = useState([]);
   const { isLoaded, loadError } = useLoadScript({
@@ -59,7 +62,6 @@ const MapComponent = () => {
         console.error('Error getting current location:', error);
       }
     );
-    console.log(currentLocation);
 
     const getMyLocaData = async (nelat, nelng, swlat, swlng) => {
       const getData = await fetchData(
@@ -83,11 +85,40 @@ const MapComponent = () => {
   if (loadError) return 'Error';
   if (!isLoaded) return 'Maps';
 
+  settings = {
+    arrows: false,
+    dots: false,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
+  const sortedBestList = locationsFromJson.sort((a, b) => b.rating - a.rating);
+
   return (
     <div>
       <MapContainer>
         <h3>📍 내 주변 숙소 찾기</h3>
-        <SliderComponent mode='best' data={locationsFromJson} />
+        <BestSlider>
+          <Slider {...settings} className='slider-wrapper'>
+            {sortedBestList.map((item, idx) => (
+              <div className='slide-item' key={idx}>
+                <img src={item.images[0]} alt='' />
+
+                <div className='slider-text'>
+                  <span className='label'>{idx + 1}위</span>
+                  <Link
+                    to={`/details?ne_lat=${currentLocation.lat + 0.03}&ne_lng=${
+                      currentLocation.lng + 0.03
+                    }&sw_lat=${currentLocation.lat - 0.03}&sw_lng=${
+                      currentLocation.lng - 0.03
+                    }&id=${item.id}`}>
+                    <h3>{item.name}</h3>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </BestSlider>
         <Container className='map-wrapper'>
           <GoogleMap
             mapContainerStyle={{

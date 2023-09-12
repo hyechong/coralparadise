@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from '../styles/CommonStyles';
 import SearchInput from './SearchInput';
 import MainImage from '../assets/main.jpg';
 import { styled } from 'styled-components';
+import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
+import { fetchData, getOptions } from '../utils/fetchData';
 
 const HeroSection = styled.section`
   position: relative;
 
   .image-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
+    width: 75%;
+    height: 75vh;
+    /* display: flex;
+    justify-content: flex-end; */
     border-radius: 30px;
+    object-fit: cover;
+    overflow: hidden;
+    margin-left: 25%;
+  }
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
   }
 
   .search-input-wrapper {
@@ -29,15 +39,36 @@ const HeroSection = styled.section`
 `;
 
 const Hero = () => {
+  const [data, setData] = useState([]);
+  const getLandingImgData = async () => {
+    const getData = await fetchData(
+      `https://airbnb13.p.rapidapi.com/search-location?location=Korea&checkin=${getFormattedTodayDate(
+        new Date()
+      )}&checkout=${getFormattedTomorrowDate(
+        new Date()
+      )}&adults=1&children=0&infants=0&pets=0&page=1&currency=KRW`,
+      getOptions
+    );
+
+    setData(
+      getData.results[Math.floor(Math.random() * getData.results.length)]
+        .images[0]
+    );
+  };
+  useEffect(() => {
+    getLandingImgData();
+  }, []);
+  console.log(data);
+
   return (
     <HeroSection className='section'>
       <Container>
         <div className='image-wrapper'>
-          <img src={MainImage} alt='main' />
+          <img src={data} alt='main' />
         </div>
-        <div className='search-input-wrapper'>
+        <Container className='search-input-wrapper'>
           <SearchInput />
-        </div>
+        </Container>
       </Container>
     </HeroSection>
   );

@@ -13,9 +13,15 @@ import {
 import { sliderList } from '../utils/sliderList';
 import { bestList } from '../utils/bestList';
 
-const SliderComponent = ({ mode, data }) => {
+const SliderComponent = ({ mode, data, currentLocation }) => {
   let settings = {};
   const [slider, setSlider] = useState(data);
+  const ne_lat = currentLocation.lat + 0.03;
+  const ne_lng = currentLocation.lng + 0.03;
+  const sw_lat = currentLocation.lat - 0.03;
+  const sw_lng = currentLocation.lng - 0.03;
+  // console.log(ne_lat, ne_lng, sw_lat, sw_lng);
+  console.log(currentLocation);
   if (mode === 'custom') {
     settings = {
       arrows: true,
@@ -73,7 +79,8 @@ const SliderComponent = ({ mode, data }) => {
 
                 <div className='slider-text'>
                   <span className='label'>{idx + 1}위</span>
-                  <Link to={`/details/${item.id}`}>
+                  <Link
+                    to={`/details?ne_lat=${ne_lat}&ne_lng=${ne_lng}&sw_lat=${sw_lat}&sw_lng=${sw_lng}&id=${item.id}`}>
                     <h3>{item.name}</h3>
                   </Link>
                 </div>

@@ -7,6 +7,7 @@ import { ClipLoader } from 'react-spinners';
 import DetailImages from '../components/DetailImages';
 import { styled } from 'styled-components';
 import DetailMap from '../components/DetailMap';
+import { getFormattedTodayDate, getFormattedTomorrowDate } from '../utils/util';
 
 const Title = styled.div`
   font-size: 20px;
@@ -39,18 +40,69 @@ const Details = () => {
   const children = searchParams.get('children');
   const pets = searchParams.get('pets');
   const roomId = searchParams.get('id');
+  const ne_lat = searchParams.get('ne_lat');
+  const ne_lng = searchParams.get('ne_lng');
+  const sw_lat = searchParams.get('sw_lat');
+  const sw_lng = searchParams.get('sw_lng');
+  console.log(ne_lat);
 
-  const getSearchData = async () => {
-    const getData = await fetchData(
-      `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&infants=0&pets=${pets}&page=1&currency=KRW`,
-      getOptions
-    );
-    setRooms(getData.results);
-    setLoading(false);
-  };
+  // let fetchUrl;
+
+  // if (location === 'near') {
+  //   fetchUrl = `https://airbnb13.p.rapidapi.com/search-location?ne_lat=${ne_lat}&ne_lng=${ne_lng}&sw_lat=${sw_lat}&sw_lng=${sw_lng}&checkin=${getFormattedTodayDate(
+  //     new Date()
+  //   )}&checkout=${getFormattedTomorrowDate(
+  //     new Date()
+  //   )}&adults=1&children=0&infants=0&pets=0&page=1&currency=KRW`;
+  // } else {
+  //   fetchUrl = `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&infants=0&pets=${pets}&page=1&currency=KRW`;
+  // }
+
+  // const getSearchData = async () => {
+  //   const getData = await fetchData(fetchUrl, getOptions);
+  //   setRooms(getData.results);
+  //   setLoading(false);
+  // };
   useEffect(() => {
+    const getSearchData = async () => {
+      let fetchUrl;
+
+      if (ne_lat) {
+        fetchUrl = `https://airbnb13.p.rapidapi.com/search-location?ne_lat=${ne_lat}&ne_lng=${ne_lng}&sw_lat=${sw_lat}&sw_lng=${sw_lng}&checkin=${getFormattedTodayDate(
+          new Date()
+        )}&checkout=${getFormattedTomorrowDate(
+          new Date()
+        )}&adults=1&children=0&infants=0&pets=0&page=1&currency=KRW`;
+      } else if (location) {
+        fetchUrl = `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&infants=0&pets=${pets}&page=1&currency=KRW`;
+      }
+      console.log(fetchUrl);
+
+      try {
+        const getData = await fetchData(fetchUrl, getOptions);
+        setRooms(getData.results);
+        setLoading(false);
+        console.log(getData);
+      } catch (error) {
+        // Handle error here, e.g., display an error message
+        console.error('Error fetching data:', error);
+      }
+    };
+
     getSearchData();
-  }, [location, checkIn, checkOut, adults, children, pets]);
+  }, [
+    location,
+    checkIn,
+    checkOut,
+    adults,
+    children,
+    pets,
+    ne_lat,
+    ne_lng,
+    sw_lat,
+    sw_lng,
+  ]);
+  console.log(rooms);
 
   return (
     <div>
@@ -103,7 +155,9 @@ const Details = () => {
                   </RoomInfoWrapper>
                   <MapWrapper>
                     <h4>호스팅 지역</h4>
-                    <DetailMap lati={room.lat} long={room.lng} />
+                    {room && room.lat && room.lng && (
+                      <DetailMap lati={room.lat} long={room.lng} />
+                    )}
                   </MapWrapper>
                 </div>
               </div>
