@@ -11,7 +11,7 @@ const HeroSection = styled.section`
 
   .image-wrapper {
     width: 75%;
-    height: 75vh;
+    height: 600px;
     /* display: flex;
     justify-content: flex-end; */
     border-radius: 30px;
