@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import logo from '../assets/logo.png';
 import { Container } from '../styles/CommonStyles';
 import { RiMenu3Line } from 'react-icons/ri';
+
+import { gapi } from 'gapi-script';
+import Login from './Login';
+import Logout from './Logout';
 
 const HeaderSection = styled.header`
   box-shadow: 0 0 7px 0px #ddd;
@@ -56,7 +60,18 @@ const LogoLink = styled(Link)`
   }
 `;
 
+const clientId = process.env.REACT_APP_CLIENT_ID;
+
 const Header = () => {
+  const [profileObj, setprofileObj] = useState(null);
+
+  useEffect(() => {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: clientId,
+      });
+    });
+  });
   return (
     <HeaderSection>
       <Container>
@@ -76,6 +91,12 @@ const Header = () => {
             </li>
             <li>
               <Link to='/signup'>회원가입</Link>
+            </li>
+            <li>
+              <Login setprofileObj={setprofileObj} />
+            </li>
+            <li>
+              <Logout />
             </li>
           </ul>
         </NavList>

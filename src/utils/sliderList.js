@@ -1,3 +1,4 @@
+import React from 'react';
 export const sliderList = [
   {
     image: '../assets/slick.jpeg',

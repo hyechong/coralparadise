@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import SearchLists from './pages/SearchLists';
 import { Route, Routes } from 'react-router-dom';
 import WishLists from './pages/WishLists';
-
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/Globalstyles';
 

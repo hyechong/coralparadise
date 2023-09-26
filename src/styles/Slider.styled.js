@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import React from 'react';
 
 export const SliderWrapper = styled.div`
   width: 100%;

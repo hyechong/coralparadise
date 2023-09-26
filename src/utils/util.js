@@ -1,3 +1,4 @@
+import React from 'react';
 export const getFormattedTodayDate = (targetDate) => {
   let year = targetDate.getFullYear();
   let month = targetDate.getMonth() + 1;
